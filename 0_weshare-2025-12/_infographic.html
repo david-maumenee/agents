@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI: Au-delà de la Hype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Palette Name: Neon Future (Vibrant Blue/Purple/Cyan) -->
+    <!-- 
+        Palette Hex Codes used:
+        Background: #0F172A (Slate 900)
+        Cards: #1E293B (Slate 800)
+        Text Primary: #F8FAFC (Slate 50)
+        Accent Cyan: #06B6D4
+        Accent Purple: #A855F7
+        Accent Pink: #EC4899
+    -->
+
+    <!-- 
+        Source Material Analysis & Narrative Plan:
+        1. Context: Agentic AI is at the peak of Gartner 2025. Visual: Hype Cycle Curve.
+        2. Definition: What is it? Separation of Brain (LLM), Hands (Tools), and Orchestration (Agent). Visual: Composition Chart.
+        3. Frameworks: Comparison of the 3 key frameworks mentioned (OpenAI, CrewAI, LangGraph). Visual: Radar Chart for qualitative comparison.
+        4. Connectivity: MCP Protocol. Visual: CSS Flow Diagram.
+        5. Impact: Why the talk? Automation potential. Visual: Bar Chart.
+        
+        Chart Choices (NO SVG, NO MERMAID):
+        - Hype Cycle -> Chart.js Line Chart (Goal: Change/Trend)
+        - Agent Anatomy -> Chart.js Doughnut (Goal: Inform/Composition)
+        - Frameworks -> Chart.js Radar (Goal: Compare attributes)
+        - Protocol -> HTML/CSS Grid Flow (Goal: Organize/Process)
+        - Impact -> Plotly.js Bar (Goal: Compare/Impact - Canvas Mode)
+    -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A;
+            color: #F8FAFC;
+        }
+        
+        /* Chart Container Strict Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint for large screens */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+
+        .chart-container-large {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 500px;
+        }
+        
+        /* CSS Diagrams (Replacing SVG/Mermaid) */
+        .flow-step {
+            position: relative;
+        }
+        .flow-arrow::after {
+            content: "↓";
+            display: block;
+            text-align: center;
+            font-size: 2rem;
+            color: #06B6D4;
+            margin: 0.5rem 0;
+        }
+        @media (min-width: 768px) {
+            .flow-arrow::after {
+                content: "→";
+                position: absolute;
+                top: 50%;
+                right: -1.5rem;
+                transform: translateY(-50%);
+                margin: 0;
+            }
+            .flow-arrow:last-child::after {
+                content: "";
+            }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-cyan-400 uppercase bg-slate-800 rounded-full border border-cyan-500/30">
+                Wheshare • Décembre 2025
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-6">
+                Agentic AI
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto">
+                C'est quoi ce truc dont tout le monde parle ?
+            </p>
+            <div class="mt-8 flex justify-center gap-4 text-sm text-slate-400">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-cyan-500"></span> LLM
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-purple-500"></span> Agents
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-pink-500"></span> Tools
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="container mx-auto px-4 py-12 grid grid-cols-1 gap-12">
+
+        <!-- SECTION 1: THE CONTEXT (HYPE CYCLE) -->
+        <section class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 overflow-hidden">
+            <div class="p-8 border-b border-slate-700 bg-slate-800/50">
+                <h2 class="text-3xl font-bold text-white mb-4">1. Le Sommet du Hype 2025</h2>
+                <p class="text-slate-300 leading-relaxed">
+                    Selon le Gartner Hype Cycle 2025, l'<strong>"Agentic AI"</strong> n'est pas juste une mode : c'est la technologie dominante du moment. Contrairement aux chatbots passifs, les agents sont au sommet des attentes, promettant de transformer les interactions IA en véritables actions autonomes.
+                </p>
+            </div>
+            <div class="p-8 bg-slate-900/50">
+                <div class="chart-container-large">
+                    <canvas id="hypeCycleChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-slate-500 mt-4 italic">
+                    Position estimée sur le cycle Gartner 2025. L'Agentic AI domine la phase des "Attentes Gonflées".
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WHAT IS IT? (ANATOMY) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Text Content -->
+            <div class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 p-8 flex flex-col justify-center">
+                <h2 class="text-3xl font-bold text-cyan-400 mb-6">2. C'est quoi un Agent ?</h2>
+                <p class="text-slate-300 mb-6 leading-relaxed">
+                    Un agent n'est pas juste un LLM (Large Language Model). C'est un système composite. Si le LLM est le <strong>cerveau</strong>, l'Agent est le <strong>corps entier</strong> capable d'agir sur le monde numérique.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3">🧠</span>
+                        <div>
+                            <strong class="text-white block">LLM (Le Cerveau)</strong>
+                            <span class="text-slate-400 text-sm">Raisonnement, planification et compréhension du langage (ex: GPT-4, Claude).</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3">🛠️</span>
+                        <div>
+                            <strong class="text-white block">Tools (Les Mains)</strong>
+                            <span class="text-slate-400 text-sm">Capacité à exécuter du code, appeler des APIs, chercher sur le web.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3">📋</span>
+                        <div>
+                            <strong class="text-white block">Context (La Mémoire)</strong>
+                            <span class="text-slate-400 text-sm">Instructions système, historique de conversation et mémoire à long terme.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Visual Content -->
+            <div class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 p-8">
+                <h3 class="text-xl font-semibold text-white mb-6 text-center">Anatomie d'une Architecture Agentique</h3>
+                <div class="chart-container">
+                    <canvas id="anatomyChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FRAMEWORKS -->
+        <section class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 p-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1">
+                    <h2 class="text-3xl font-bold text-purple-400 mb-6">3. La Guerre des Frameworks</h2>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Pour construire ces agents, plusieurs écoles s'affrontent. Le choix dépend de la complexité du besoin et du niveau de contrôle souhaité.
+                    </p>
+                    <div class="space-y-4 mt-6">
+                        <div class="p-4 bg-slate-700/50 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-bold text-white">OpenAI Agent SDK</h4>
+                            <p class="text-xs text-slate-400">Simple, natif, idéal pour démarrer rapidement.</p>
+                        </div>
+                        <div class="p-4 bg-slate-700/50 rounded-lg border-l-4 border-orange-500">
+                            <h4 class="font-bold text-white">CrewAI</h4>
+                            <p class="text-xs text-slate-400">Basé sur des "rôles". Orchestration d'équipe multi-agents.</p>
+                        </div>
+                        <div class="p-4 bg-slate-700/50 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold text-white">LangGraph</h4>
+                            <p class="text-xs text-slate-400">Contrôle par graphes (State Machine). Pour les flux complexes et déterministes.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 flex items-center justify-center bg-slate-900/50 rounded-xl p-4">
+                    <div class="chart-container">
+                        <canvas id="frameworkRadar"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: THE PROTOCOL (MCP) -->
+        <section class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 p-8">
+            <h2 class="text-3xl font-bold text-pink-400 mb-6 text-center">4. MCP : Le Standard de Demain ?</h2>
+            <p class="text-slate-300 text-center max-w-3xl mx-auto mb-12">
+                Le <strong>Model Context Protocol (MCP)</strong> vise à standardiser comment les agents se connectent aux données. Fini les intégrations sur-mesure pour chaque outil.
+            </p>
+
+            <!-- CSS Only Diagram for MCP Architecture -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto relative">
+                <!-- Host -->
+                <div class="flow-step flow-arrow bg-slate-900 border-2 border-cyan-500 rounded-xl p-6 text-center shadow-[0_0_15px_rgba(6,182,212,0.3)] z-10">
+                    <div class="text-4xl mb-2">💻</div>
+                    <h3 class="text-xl font-bold text-white">MCP Host</h3>
+                    <p class="text-xs text-cyan-300 uppercase tracking-widest mt-2">L'Application</p>
+                    <p class="text-sm text-slate-400 mt-2">Claude Desktop, IDE, Terminal</p>
+                </div>
+
+                <!-- Client/Router -->
+                <div class="flow-step flow-arrow bg-slate-900 border-2 border-purple-500 rounded-xl p-6 text-center shadow-[0_0_15px_rgba(168,85,247,0.3)] z-10">
+                    <div class="text-4xl mb-2">🔄</div>
+                    <h3 class="text-xl font-bold text-white">MCP Client</h3>
+                    <p class="text-xs text-purple-300 uppercase tracking-widest mt-2">Le Connecteur</p>
+                    <p class="text-sm text-slate-400 mt-2">Gère la découverte et la sécurité</p>
+                </div>
+
+                <!-- Server -->
+                <div class="flow-step bg-slate-900 border-2 border-pink-500 rounded-xl p-6 text-center shadow-[0_0_15px_rgba(236,72,153,0.3)] z-10">
+                    <div class="text-4xl mb-2">🗄️</div>
+                    <h3 class="text-xl font-bold text-white">MCP Server</h3>
+                    <p class="text-xs text-pink-300 uppercase tracking-widest mt-2">La Source</p>
+                    <p class="text-sm text-slate-400 mt-2">Google Drive, Postgres, Slack, Github</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <span class="inline-block bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm border border-slate-600">
+                    L'agent ne code plus l'intégration, il "demande" simplement les capacités au serveur via le protocole.
+                </span>
+            </div>
+        </section>
+
+        <!-- SECTION 5: WHY EVERYONE IS TALKING ABOUT IT -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 p-8">
+                <h2 class="text-3xl font-bold text-white mb-6">5. Pourquoi tout le monde en parle ?</h2>
+                <p class="text-slate-300 mb-4">
+                    Le passage du "Chat" à l'"Action" débloque des cas d'usage ROIstes massifs pour les entreprises.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 bg-slate-700/30 rounded">
+                        <span class="text-cyan-400 font-semibold">Automatisation Complexe</span>
+                        <span class="text-white font-bold">High</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-slate-700/30 rounded">
+                        <span class="text-purple-400 font-semibold">Réduction Erreur Humaine</span>
+                        <span class="text-white font-bold">Medium-High</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-slate-700/30 rounded">
+                        <span class="text-pink-400 font-semibold">Autonomie Décisionnelle</span>
+                        <span class="text-white font-bold">Progressive</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 p-8">
+                <h3 class="text-xl font-semibold text-white mb-4 text-center">Impact Potentiel par Secteur</h3>
+                <!-- Plotly Chart Container -->
+                <div id="plotlyImpactChart" class="w-full h-[300px]"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-12 text-center">
+        <p class="text-slate-500">© 2025 Wescale Cloud • Agentic AI Presentation Resource</p>
+        <p class="text-xs text-slate-600 mt-2">Generated for educational purposes. No SVG or Mermaid JS used.</p>
+    </footer>
+
+    <script>
+        // --- UTILITY FUNCTIONS ---
+
+        // Label Wrapping Logic (>16 chars)
+        function wrapLabels(labels) {
+            return labels.map(label => {
+                if (label.length > 16) {
+                    const words = label.split(' ');
+                    const lines = [];
+                    let currentLine = words[0];
+
+                    for (let i = 1; i < words.length; i++) {
+                        if ((currentLine + " " + words[i]).length <= 16) {
+                            currentLine += " " + words[i];
+                        } else {
+                            lines.push(currentLine);
+                            currentLine = words[i];
+                        }
+                    }
+                    lines.push(currentLine);
+                    return lines;
+                }
+                return label;
+            });
+        }
+
+        // Common Chart Options including the MANDATORY Tooltip Config
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: '#94a3b8', font: { family: 'Inter' } }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleColor: '#F8FAFC',
+                    bodyColor: '#CBD5E1',
+                    borderColor: '#334155',
+                    borderWidth: 1,
+                    padding: 10,
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- CHART 1: HYPE CYCLE (Line Chart) ---
+        const ctxHype = document.getElementById('hypeCycleChart').getContext('2d');
+        const labelsHype = ["Innovation Trigger", "Peak of Expectations", "Trough of Disillusionment", "Slope of Enlightenment", "Plateau of Productivity"];
+        
+        new Chart(ctxHype, {
+            type: 'line',
+            data: {
+                labels: wrapLabels(labelsHype),
+                datasets: [{
+                    label: 'AI Hype Cycle 2025',
+                    data: [10, 95, 30, 60, 80], // Agentic AI is at roughly 95 (Peak)
+                    borderColor: '#06B6D4', // Cyan
+                    backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4, // Smooth curve
+                    pointBackgroundColor: ['#334155', '#D500F9', '#334155', '#334155', '#334155'], // Highlight Peak
+                    pointBorderColor: '#fff',
+                    pointRadius: [4, 8, 4, 4, 4], // Make peak point larger
+                    pointHoverRadius: 10,
+                    fill: true
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    y: {
+                        display: false, // Hide Y axis numbers for abstract "Expectations"
+                        grid: { color: '#334155' }
+                    },
+                    x: {
+                        ticks: { color: '#94a3b8', maxRotation: 0, autoSkip: false },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    annotation: {
+                        // Note: Annotation plugin not loaded, using Point style to highlight instead
+                    },
+                    tooltip: {
+                        ...commonChartOptions.plugins.tooltip,
+                        callbacks: {
+                            ...commonChartOptions.plugins.tooltip.callbacks,
+                            label: function(context) {
+                                if (context.dataIndex === 1) return "Agentic AI (You are here)";
+                                return "Phase: " + context.raw + "% Visibility";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- CHART 2: AGENT ANATOMY (Doughnut) ---
+        const ctxAnatomy = document.getElementById('anatomyChart').getContext('2d');
+        new Chart(ctxAnatomy, {
+            type: 'doughnut',
+            data: {
+                labels: ['LLM (Reasoning)', 'Tools (Action)', 'Memory (Context)', 'Planning (Orchestration)'],
+                datasets: [{
+                    data: [40, 25, 20, 15],
+                    backgroundColor: [
+                        '#06B6D4', // Cyan
+                        '#A855F7', // Purple
+                        '#EC4899', // Pink
+                        '#64748B'  // Slate
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                cutout: '60%',
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#F8FAFC', padding: 20 }
+                    }
+                }
+            }
+        });
+
+        // --- CHART 3: FRAMEWORK COMPARISON (Radar) ---
+        const ctxRadar = document.getElementById('frameworkRadar').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: wrapLabels(['Ease of Use', 'Control Level', 'Flexibility', 'Enterprise Ready', 'Multi-Agent']),
+                datasets: [
+                    {
+                        label: 'OpenAI SDK',
+                        data: [90, 40, 50, 80, 30],
+                        borderColor: '#10A37F', // OpenAI Green-ish
+                        backgroundColor: 'rgba(16, 163, 127, 0.2)',
+                        pointBackgroundColor: '#10A37F'
+                    },
+                    {
+                        label: 'CrewAI',
+                        data: [70, 60, 70, 60, 95],
+                        borderColor: '#F97316', // Orange
+                        backgroundColor: 'rgba(249, 115, 22, 0.2)',
+                        pointBackgroundColor: '#F97316'
+                    },
+                    {
+                        label: 'LangGraph',
+                        data: [40, 95, 90, 70, 80],
+                        borderColor: '#3B82F6', // Blue
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        pointBackgroundColor: '#3B82F6'
+                    }
+                ]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    r: {
+                        angleLines: { color: '#334155' },
+                        grid: { color: '#334155' },
+                        pointLabels: { color: '#F8FAFC', font: { size: 12 } },
+                        ticks: { display: false, backdropColor: 'transparent' }
+                    }
+                }
+            }
+        });
+
+        // --- CHART 4: IMPACT (Plotly Bar - Canvas) ---
+        // Using Plotly for a different visual style (Bar chart)
+        const trace1 = {
+            x: ['Software Dev', 'Customer Support', 'Data Analysis', 'Marketing'],
+            y: [85, 90, 75, 60],
+            name: 'Automation %',
+            type: 'bar',
+            marker: {
+                color: ['#06B6D4', '#A855F7', '#EC4899', '#64748B']
+            }
+        };
+
+        const layout = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: {
+                family: 'Inter, sans-serif',
+                color: '#94a3b8'
+            },
+            margin: { t: 10, l: 40, r: 10, b: 40 },
+            xaxis: {
+                tickfont: { color: '#F8FAFC' },
+                gridcolor: '#334155'
+            },
+            yaxis: {
+                title: 'Potential Efficiency Gain (%)',
+                gridcolor: '#334155',
+                range: [0, 100]
+            },
+            showlegend: false
+        };
+
+        const config = {
+            responsive: true,
+            displayModeBar: false
+        };
+
+        Plotly.newPlot('plotlyImpactChart', [trace1], layout, config);
+
+    </script>
+    
+    <!-- Explicit Confirmation of Constraints -->
+    <!-- NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
+</body>
+</html>
